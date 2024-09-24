@@ -119,6 +119,41 @@
 
     @stack('scripts')
 
+    <style>
+        .required:after {
+            content: " *";
+            color: red;
+        }
+    </style>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                allowOutsideClick: false,
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                allowOutsideClick: false,
+            });
+        </script>
+    @endif
+
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 @extends('auth.layouts.app')
 
-@section('page', 'Register')
+@section('title', 'Register')
 
 @section('content')
     <div class="card o-hidden border-0 shadow-lg my-5">
