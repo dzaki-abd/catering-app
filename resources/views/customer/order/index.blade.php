@@ -56,12 +56,23 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var $table = $('#table_menu').DataTable({
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var type = $('#type').val();
+            var merchant = $('#merchant').val();
+
+            var table = $('#table_menu').DataTable({
                 fixedHeader: true,
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                ajax: '{{ route('customer.order.index') }}',
+                ajax: {
+                    url: '{{ route('customer.order.index') }}',
+                    type: 'GET',
+                    data: function(d) {
+                        d.type = $('#type').val();
+                        d.merchant = $('#merchant').val();
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -90,14 +101,20 @@
                     }
                 ]
             });
-        });
 
-        $('#type').select2({
-            theme: 'bootstrap4',
-        });
+            $('#type, #merchant').on('change', function() {
+                table.draw();
+            });
 
-        $('#merchant').select2({
-            theme: 'bootstrap4',
+            $('#type').select2({
+                theme: 'bootstrap4',
+                width: '100%',
+            });
+
+            $('#merchant').select2({
+                theme: 'bootstrap4',
+                width: '100%',
+            });
         });
     </script>
 @endpush

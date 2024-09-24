@@ -145,6 +145,7 @@
     <script>
         $('#user_role').select2({
             theme: 'bootstrap4',
+            width: '100%'
         });
 
         $('#user_role').change(function() {

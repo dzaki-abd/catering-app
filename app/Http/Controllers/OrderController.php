@@ -8,10 +8,22 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $menus = Menu::all();
+
+            if ($request->merchant != null && $request->type == null) {
+                $merchant = Merchant::where('name', $request->merchant)->first();
+                $menus = Menu::where('merchant_id', $merchant->id)->get();
+            } else if ($request->merchant == null && $request->type != null) {
+                $menus = Menu::where('type', $request->type)->get();
+            } else if ($request->merchant != null && $request->type != null) {
+                $merchant = Merchant::where('name', $request->merchant)->first();
+                $menus = Menu::where('merchant_id', $merchant->id)->where('type', $request->type)->get();
+            } else {
+                $menus = Menu::all();
+            }
+
             return datatables()->of($menus)
                 ->addIndexColumn()
                 ->addColumn('merchant', function ($row) {
