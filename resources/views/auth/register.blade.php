@@ -143,6 +143,10 @@
 
 @section('scripts')
     <script>
+        $('#user_role').select2({
+            theme: 'bootstrap4',
+        });
+
         $('#user_role').change(function() {
             var role = $(this).val();
             if (role == 'merchant') {

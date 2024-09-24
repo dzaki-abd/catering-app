@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,6 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::middleware(['role:customer'])->prefix('customer')->name('customer.')->group(function () {
-        // Customer routes
+        Route::resource('order', OrderController::class);
     });
 });

@@ -27,14 +27,14 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    @if (auth()->user()->role == 'merchant')
+    @if (auth()->user()->hasRole('merchant'))
         <li class="nav-item @if (request()->routeIs('merchant.menu.*')) active @endif">
             <a class="nav-link" href="{{ route('merchant.menu.index') }}">
                 <i class="fas fa-pizza-slice"></i>
                 <span>Menu</span></a>
         </li>
     @endif
-    @if (auth()->user()->role == 'customer')
+    @if (auth()->user()->hasRole('customer'))
         <li class="nav-item @if (request()->routeIs('customer.order.*')) active @endif">
             <a class="nav-link" href="{{ route('customer.order.index') }}">
                 <i class="fas fa-shopping-cart"></i>
