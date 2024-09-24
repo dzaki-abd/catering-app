@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
@@ -23,6 +24,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::resource('profile', ProfileController::class);
+    Route::resource('invoice', InvoiceController::class);
 
     Route::group(['middleware' => 'role:admin'], function () {
         // Admin routes

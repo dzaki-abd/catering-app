@@ -21,6 +21,7 @@ return new class extends Migration
             $table->dateTime('delivery_date');
             $table->string('delivery_address');
             $table->integer('total_price_transaction');
+            $table->string('invoice_number')->nullable();
             $table->timestamps();
         });
     }

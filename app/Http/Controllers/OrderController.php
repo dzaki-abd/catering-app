@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Models\Merchant;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -50,18 +53,6 @@ class OrderController extends Controller
         }
     }
 
-    public function create() {}
-
-    public function store(Request $request) {}
-
-    public function show($id) {}
-
-    public function edit($id) {}
-
-    public function update(Request $request, $id) {}
-
-    public function destroy($id) {}
-
     public function addToCart(Request $request)
     {
         $cart = \Cart::session(auth()->id());
@@ -100,6 +91,10 @@ class OrderController extends Controller
 
         $cart = \Cart::session(auth()->id())->getContent();
 
+        $arrayID = [];
+
+        $invoice_number = 'INV-' . auth()->id() . '-' . time();
+
         foreach ($cart as $item) {
             $transaction = Transaction::create([
                 'user_id' => auth()->id(),
@@ -109,12 +104,43 @@ class OrderController extends Controller
                 'total' => $item->getPriceSum(),
                 'delivery_date' => $datetime,
                 'delivery_address' => $request->address,
-                'total_price_transaction' => $request->total_price
+                'total_price_transaction' => $request->total_price,
+                'invoice_number' => $invoice_number
             ]);
+
+            array_push($arrayID, $transaction->id);
         }
+
+        $this->generateInvoice($arrayID, $invoice_number);
 
         \Cart::session(auth()->id())->clear();
 
-        return redirect()->route('customer.order.index')->with('success', 'Checkout successfully.');
+        return redirect()->back()->with('success-invoice', 'Checkout successfully. Please check Invoice Menu for the invoice. No Invoice : ' . $invoice_number);
+    }
+
+    private function generateInvoice($arrayID, $invoice_number)
+    {
+
+        $transactions = Transaction::whereIn('id', $arrayID)->get();
+
+        if ($transactions->isEmpty()) {
+            return;
+        }
+
+        $user = User::find($transactions->first()->user_id);
+
+        $menuIds = $transactions->pluck('menu_id')->toArray();
+        $menus = Menu::whereIn('id', $menuIds)->get();
+
+        $merchantIds = $transactions->pluck('merchant_id')->toArray();
+        $merchants = Merchant::whereIn('id', $merchantIds)->get();
+
+
+        $pdf = new Dompdf();
+        $pdf->loadHtml(view('customer.order.invoice', compact('transactions', 'user', 'menus', 'merchants', 'invoice_number')));
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->render();
+
+        Storage::put('public/invoice/' . $invoice_number . '.pdf', $pdf->output());
     }
 }

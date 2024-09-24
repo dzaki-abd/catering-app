@@ -168,6 +168,18 @@
         </script>
     @endif
 
+    @if (session('success-invoice'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('success-invoice') }}',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+            });
+        </script>
+    @endif
+
 </body>
 
 </html>
