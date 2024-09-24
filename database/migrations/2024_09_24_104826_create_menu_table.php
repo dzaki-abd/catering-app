@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('merchant_id')->unsigned();
             $table->string('name');
-            $table->enum('type', ['makanan', 'minuman'])->nullable();
+            $table->enum('type', ['Food', 'Drink'])->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->bigInteger('price')->nullable();
