@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Models\Merchant;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -60,20 +62,59 @@ class OrderController extends Controller
 
     public function destroy($id) {}
 
-    public function addToCart(Request $request, $id)
+    public function addToCart(Request $request)
     {
-        dd($request->all());
         $cart = \Cart::session(auth()->id());
 
-        $menu = Menu::findOrFail(decrypt($id));
+        $menu = Menu::findOrFail(decrypt($request->id));
 
-        $cart->add($menu->id, $menu->name, $menu->price, $request->qty, [
+        $cart->add($menu->id, $menu->name, $menu->price, $request->quantity, [
             'merchant' => $menu->merchant->name,
-            'merchant_id' => $menu->merchant->id,
+            'merchant_id' => encrypt($menu->merchant->id),
             'type' => $menu->type,
             'image' => $menu->image
         ]);
 
-        return redirect()->back()->with('cart-success', 'Menu berhasil ditambahkan ke keranjang');
+        return redirect()->back()->with('success', 'Menu added to cart successfully.');
+    }
+
+    public function cart()
+    {
+        $cart = \Cart::session(auth()->id())->getContent();
+        $total = \Cart::session(auth()->id())->getTotal();
+
+        return view('customer.order.cart', compact('cart', 'total'));
+    }
+
+    public function removeFromCart($id)
+    {
+        $cart = \Cart::session(auth()->id());
+        $cart->remove($id);
+
+        return redirect()->back()->with('success', 'Menu removed from cart successfully.');
+    }
+
+    public function checkout(Request $request)
+    {
+        $datetime = Carbon::createFromFormat('Y-m-d\TH:i', $request->date)->format('Y-m-d H:i:s');
+
+        $cart = \Cart::session(auth()->id())->getContent();
+
+        foreach ($cart as $item) {
+            $transaction = Transaction::create([
+                'user_id' => auth()->id(),
+                'merchant_id' => decrypt($item->attributes['merchant_id']),
+                'menu_id' => $item->id,
+                'quantity' => $item->quantity,
+                'total' => $item->getPriceSum(),
+                'delivery_date' => $datetime,
+                'delivery_address' => $request->address,
+                'total_price_transaction' => $request->total_price
+            ]);
+        }
+
+        \Cart::session(auth()->id())->clear();
+
+        return redirect()->route('customer.order.index')->with('success', 'Checkout successfully.');
     }
 }

@@ -17,9 +17,10 @@ return new class extends Migration
             $table->bigInteger('menu_id')->unsigned();
             $table->bigInteger('merchant_id')->unsigned();
             $table->integer('quantity');
-            $table->integer('total_price');
+            $table->integer('total');
             $table->dateTime('delivery_date');
             $table->string('delivery_address');
+            $table->integer('total_price_transaction');
             $table->timestamps();
         });
     }

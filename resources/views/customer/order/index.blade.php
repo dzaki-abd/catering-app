@@ -95,14 +95,14 @@
     <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addToCartModalLabel">Add To Cart</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formAddToCart" action="{{ route('customer.order.add-to-cart') }}" method="POST">
+                <form id="formAddToCart" action="{{ route('customer.order.add-to-cart') }}" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addToCartModalLabel">Add To Cart</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                         @csrf
                         <input type="hidden" name="id" id="id">
                         <div class="form-group">
@@ -116,18 +116,14 @@
                         <div class="form-group">
                             <label for="quantity"><b>Quantity:</b></label>
                             <input type="number" class="form-control" id="quantity" name="quantity" value="1"
-                                min="1">
+                                min="1" required>
                         </div>
-                        <div class="form-group">
-                            <label for="note"><b>Note: </b></label>
-                            <textarea class="form-control" id="note" name="note" rows="3"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btnAddToCart">Add To Cart</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="btnAddToCart">Add To Cart</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

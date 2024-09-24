@@ -35,10 +35,15 @@
         </li>
     @endif
     @if (auth()->user()->hasRole('customer'))
-        <li class="nav-item @if (request()->routeIs('customer.order.*')) active @endif">
+        <li class="nav-item @if (request()->routeIs('customer.order.index')) active @endif">
             <a class="nav-link" href="{{ route('customer.order.index') }}">
-                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-shopping-basket"></i>
                 <span>Order</span></a>
+        </li>
+        <li class="nav-item @if (request()->routeIs('customer.order.cart')) active @endif">
+            <a class="nav-link" href="{{ route('customer.order.cart') }}">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Cart</span></a>
         </li>
     @endif
     <li class="nav-item">

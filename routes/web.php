@@ -34,10 +34,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::middleware(['role:customer'])->prefix('customer')->name('customer.')->group(function () {
         Route::prefix('order')->name('order.')->group(function () {
+            Route::get('/', [OrderController::class, 'index'])->name('index');
             Route::post('addToCart', [OrderController::class, 'addToCart'])->name('add-to-cart');
             Route::get('cart', [OrderController::class, 'cart'])->name('cart');
+            Route::post('removeFromCart/{id}', [OrderController::class, 'removeFromCart'])->name('remove-from-cart');
             Route::post('checkout', [OrderController::class, 'checkout'])->name('checkout');
         });
-        Route::resource('order', OrderController::class);
     });
 });
