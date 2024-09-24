@@ -31,5 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('menu', MenuController::class);
     });
 
-    // Route::group(['middleware' => 'role:merchant'], function () {});
+    Route::middleware(['role:customer'])->prefix('customer')->name('customer.')->group(function () {
+        // Customer routes
+    });
 });

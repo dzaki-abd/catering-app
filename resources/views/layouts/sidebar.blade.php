@@ -27,11 +27,20 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item @if (request()->routeIs('merchant.menu.*')) active @endif">
-        <a class="nav-link" href="{{ route('merchant.menu.index') }}">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Menu</span></a>
-    </li>
+    @if (auth()->user()->role == 'merchant')
+        <li class="nav-item @if (request()->routeIs('merchant.menu.*')) active @endif">
+            <a class="nav-link" href="{{ route('merchant.menu.index') }}">
+                <i class="fas fa-pizza-slice"></i>
+                <span>Menu</span></a>
+        </li>
+    @endif
+    @if (auth()->user()->role == 'customer')
+        <li class="nav-item @if (request()->routeIs('customer.order.*')) active @endif">
+            <a class="nav-link" href="{{ route('customer.order.index') }}">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Order</span></a>
+        </li>
+    @endif
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
