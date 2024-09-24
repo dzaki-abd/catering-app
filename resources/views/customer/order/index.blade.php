@@ -51,6 +51,45 @@
             </div>
         </div>
     </div>
+
+    {{-- Modals --}}
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">Detail Menu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name"><b>Name:</b></label>
+                        <p id="name" name="name"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="type"><b>Type:</b></label>
+                        <p id="type" name="type"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="description"><b>Description:</b></label>
+                        <p id="description" name="description"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="image"><b>Image</b></label>
+                        <br id="br_image">
+                    </div>
+                    <div class="form-group">
+                        <label for="price"><b>Price per Item</b></label>
+                        <p id="price" name="price"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -115,6 +154,25 @@
                 theme: 'bootstrap4',
                 width: '100%',
             });
+
+            $('#detailModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var data = table.row(button.parents('tr')).data();
+
+                $('#name').text(data.name);
+                $('#type').text(data.type);
+                $('#description').text(data.description);
+                $('#price').text(data.price);
+                $('#br_image').nextAll().remove();
+
+                var img = document.createElement('img');
+                img.src = '{{ asset('images/') }}' + '/' + data.image;
+                img.alt = 'Image';
+                img.className = 'img-fluid';
+                img.width = 200;
+                $('#br_image').after(img);
+            });
+
         });
     </script>
 @endpush

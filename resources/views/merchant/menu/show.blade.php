@@ -32,7 +32,7 @@
                 <img src="{{ asset('images/' . $data->image) }}" alt="Image" class="img-fluid">
             </div>
             <div class="form-group">
-                <label for="price" class="required"><b>Price per Item</b></label>
+                <label for="price"><b>Price per Item</b></label>
                 <p id="price" name="price">Rp {{ number_format($data->price, 0, ',', '.') }}</p>
             </div>
         </div>

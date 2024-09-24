@@ -36,8 +36,8 @@ class OrderController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group" role="group">';
-                    $btn .= '<button data-id="' . encrypt($row->id) . '" class="view btn btn-info btn-sm me-2" title="See Details"><i class="fas fa-eye"></i></button>';
-                    $btn .= '<a href="' . route('merchant.menu.edit', encrypt($row->id)) . '" class="edit btn btn-warning btn-sm me-2" title="Edit Data"><i class="fas fa-edit"></i></a>';
+                    $btn .= '<button class="view btn btn-info btn-sm me-2" title="See Details" data-toggle="modal" data-target="#detailModal"><i class="fas fa-eye"></i></button>';
+                    $btn .= '<a href="' . route('merchant.menu.edit', encrypt($row->id)) . '" class="edit btn btn-warning btn-sm me-2" title="Add to Cart"><i class="fas fa-shopping-cart"></i></a>';
                     $btn .= '</div>';
                     return $btn;
                 })
