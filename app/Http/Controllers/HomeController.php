@@ -36,7 +36,6 @@ class HomeController extends Controller
             $value = Transaction::where('user_id', auth()->id())->get();
         }
 
-        // hitung total transaksi
         $total = $value->sum('total');
         return view('dashboard', compact('total'));
     }

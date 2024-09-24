@@ -4,13 +4,13 @@
 
 @section('content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Invoice</h1>
-    <p class="mb-4">Download your invoice here.</p>
+    <h1 class="h3 mb-2 text-gray-800">Invoice and List Transaction</h1>
+    <p class="mb-4">See Transcation List here and Download your invoice here.</p>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Invoice</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data Invoice and List Transaction</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
