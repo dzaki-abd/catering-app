@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\Merchant;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -52,6 +55,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'user_role' => ['required'],
         ]);
     }
 
@@ -63,10 +67,33 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user_create = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        if ($data['user_role'] == 'merchant') {
+            Merchant::create([
+                'user_id' => $user_create->id,
+                'name' => $data['name'],
+                'address' => $data['address_merchant'],
+                'contact' => $data['contact_merchant'],
+                'description' => $data['description_merchant'],
+            ]);
+
+            $user_create->assignRole('merchant');
+        } else {
+            Customer::create([
+                'user_id' => $user_create->id,
+                'name' => $data['name'],
+                'address' => $data['address_customer'],
+                'contact' => $data['contact_customer'],
+            ]);
+
+            $user_create->assignRole('customer');
+        }
+
+        return $user_create;
     }
 }

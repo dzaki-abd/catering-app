@@ -56,6 +56,76 @@
                                         autocomplete="new-password">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <select name="user_role" id="user_role" required
+                                    class="form-control @error('user_role') is-invalid @enderror"
+                                    style="border-radius: 10rem;">
+                                    <option value="" selected disabled>Select Role</option>
+                                    <option value="merchant">Merchant</option>
+                                    <option value="customer">Customer</option>
+                                </select>
+                                @error('user_role')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="merchant-container d-none">
+                                <div class="form-group">
+                                    <textarea id="address_merchant" type="text"
+                                        class="form-control form-control-user @error('address') is-invalid @enderror" name="address_merchant"
+                                        value="{{ old('address') }}" placeholder="Address Merchant" autocomplete="address"></textarea>
+                                    @error('address')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <input id="contact_merchant" type="text"
+                                        class="form-control form-control-user @error('contact') is-invalid @enderror"
+                                        name="contact_merchant" value="{{ old('contact') }}" placeholder="Contact Merchant"
+                                        autocomplete="contact">
+                                    @error('contact')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="description_merchant" type="text"
+                                        class="form-control form-control-user @error('description') is-invalid @enderror" name="description_merchant"
+                                        value="{{ old('description') }}" placeholder="Description Merchant" autocomplete="description"></textarea>
+                                    @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="customer-container d-none">
+                                <div class="form-group">
+                                    <textarea id="address_customer" type="text"
+                                        class="form-control form-control-user @error('address') is-invalid @enderror" name="address_customer"
+                                        value="{{ old('address') }}" placeholder="Address Customer" autocomplete="address"></textarea>
+                                    @error('address')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <input id="contact_customer" type="text"
+                                        class="form-control form-control-user @error('contact') is-invalid @enderror"
+                                        name="contact_customer" value="{{ old('contact') }}"
+                                        placeholder="Contact Customer" autocomplete="contact">
+                                    @error('contact')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary btn-user btn-block">
                                 Register Account
                             </button>
@@ -69,4 +139,22 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $('#user_role').change(function() {
+            var role = $(this).val();
+            if (role == 'merchant') {
+                $('.merchant-container').removeClass('d-none');
+                $('.customer-container').addClass('d-none');
+            } else if (role == 'customer') {
+                $('.customer-container').removeClass('d-none');
+                $('.merchant-container').addClass('d-none');
+            } else {
+                $('.merchant-container').addClass('d-none');
+                $('.customer-container').addClass('d-none');
+            }
+        });
+    </script>
 @endsection

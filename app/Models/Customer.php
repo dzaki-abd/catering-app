@@ -9,6 +9,8 @@ class Customer extends Model
 {
     use HasFactory;
 
+    protected $table = "customer";
+
     protected $guarded = ['id'];
 
     public function user()

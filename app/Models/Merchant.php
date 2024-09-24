@@ -9,6 +9,8 @@ class Merchant extends Model
 {
     use HasFactory;
 
+    protected $table = "merchant";
+
     protected $guarded = ['id'];
 
     public function user()
