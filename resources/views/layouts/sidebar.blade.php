@@ -12,8 +12,8 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+    <li class="nav-item @if (request()->routeIs('home')) active @endif">
+        <a class="nav-link" href="{{ route('home') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -23,15 +23,20 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Interface
+        Goods
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item @if (request()->routeIs('merchant.menu.*')) active @endif">
+        <a class="nav-link" href="{{ route('merchant.menu.index') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Menu</span></a>
+    </li>
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
-            <span>Components</span>
+            <span>Menu</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
