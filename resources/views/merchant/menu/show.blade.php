@@ -16,15 +16,15 @@
         <div class="card-body">
             <div class="form-group">
                 <label for="name"><b>Name:</b></label>
-                <p id="name" name="name">{{ $data->name }}</p>
+                <p id="name">{{ $data->name }}</p>
             </div>
             <div class="form-group">
                 <label for="type"><b>Type:</b></label>
-                <p id="type" name="type">{{ $data->type }}</p>
+                <p id="type">{{ $data->type }}</p>
             </div>
             <div class="form-group">
                 <label for="description"><b>Description:</b></label>
-                <p id="description" name="description"> {{ $data->description }} </p>
+                <p id="description"> {{ $data->description }} </p>
             </div>
             <div class="form-group">
                 <label for="image"><b>Image</b></label>
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label for="price"><b>Price per Item</b></label>
-                <p id="price" name="price">Rp {{ number_format($data->price, 0, ',', '.') }}</p>
+                <p id="price">Rp {{ number_format($data->price, 0, ',', '.') }}</p>
             </div>
         </div>
         <div class="card-footer">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\Merchant;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -10,7 +11,8 @@ class MenuController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $menus = Menu::where('merchant_id', auth()->user()->id)->get();
+            $merchant = Merchant::where('user_id', auth()->user()->id)->first();
+            $menus = Menu::where('merchant_id', $merchant->id)->get();
             return datatables()->of($menus)
                 ->addIndexColumn()
                 ->addColumn('price', function ($row) {
@@ -56,9 +58,10 @@ class MenuController extends Controller
         }
 
         $price = str_replace('.', '', $request->price);
+        $merchant = Merchant::where('user_id', auth()->user()->id)->first();
 
         $createMenu = Menu::create([
-            'merchant_id' => auth()->user()->id,
+            'merchant_id' => $merchant->id,
             'name' => $request->name,
             'type' => $request->type,
             'description' => $request->description,

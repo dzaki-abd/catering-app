@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    {{-- Modals --}}
+    {{-- Modals Detail --}}
     <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -65,15 +65,15 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name"><b>Name:</b></label>
-                        <p id="name" name="name"></p>
+                        <p id="name"></p>
                     </div>
                     <div class="form-group">
                         <label for="type"><b>Type:</b></label>
-                        <p id="type" name="type"></p>
+                        <p id="type"></p>
                     </div>
                     <div class="form-group">
                         <label for="description"><b>Description:</b></label>
-                        <p id="description" name="description"></p>
+                        <p id="description"></p>
                     </div>
                     <div class="form-group">
                         <label for="image"><b>Image</b></label>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="form-group">
                         <label for="price"><b>Price per Item</b></label>
-                        <p id="price" name="price"></p>
+                        <p id="price"></p>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -90,6 +90,48 @@
             </div>
         </div>
     </div>
+    {{-- End Modals Detail --}}
+    {{-- Modals Add To Cart --}}
+    <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addToCartModalLabel">Add To Cart</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAddToCart" action="{{ route('customer.order.add-to-cart') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" id="id">
+                        <div class="form-group">
+                            <label for="order_name"><b>Order:</b></label>
+                            <p id="order_name"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="merchant_name"><b>Merchant:</b></label>
+                            <p id="merchant_name"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity"><b>Quantity:</b></label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value="1"
+                                min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="note"><b>Note: </b></label>
+                            <textarea class="form-control" id="note" name="note" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnAddToCart">Add To Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modals Add To Cart --}}
 @endsection
 
 @push('scripts')
@@ -159,11 +201,11 @@
                 var button = $(event.relatedTarget);
                 var data = table.row(button.parents('tr')).data();
 
-                $('#name').text(data.name);
-                $('#type').text(data.type);
-                $('#description').text(data.description);
-                $('#price').text(data.price);
-                $('#br_image').nextAll().remove();
+                $('#detailModal #name').text(data.name);
+                $('#detailModal #type').text(data.type);
+                $('#detailModal #description').text(data.description);
+                $('#detailModal #price').text(data.price);
+                $('#detailModal #br_image').nextAll().remove();
 
                 var img = document.createElement('img');
                 img.src = '{{ asset('images/') }}' + '/' + data.image;
@@ -173,6 +215,15 @@
                 $('#br_image').after(img);
             });
 
+            $('#addToCartModal').on('show.bs.modal', function(event) {
+                var id = $(event.relatedTarget).data('id');
+                var button = $(event.relatedTarget);
+                var data = table.row(button.parents('tr')).data();
+
+                $('#addToCartModal #id').val(id);
+                $('#addToCartModal #order_name').text(data.name);
+                $('#addToCartModal #merchant_name').text(data.merchant);
+            });
         });
     </script>
 @endpush
